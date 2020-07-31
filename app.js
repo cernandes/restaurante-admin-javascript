@@ -16,7 +16,6 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-var client = redis.createClient();
 app.use(session({
   store: new RedisStore({
     host: 'localhost',
