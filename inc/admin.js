@@ -1,4 +1,11 @@
 module.exports = {
+    getParams(req, params) {
+        return Object.assign({}, {
+            date: {},
+            menus: req.menus,
+            user: req.session.user
+        }, params);
+    },
     getMenus(req) {
         let menus = [
             {
