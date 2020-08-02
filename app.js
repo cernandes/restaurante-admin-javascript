@@ -6,11 +6,32 @@ const logger = require('morgan');
 const redis = require('redis');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
+const formidable = require('formidable');
 
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
 
 const app = express();
+
+app.use(function (req, res, next) {
+
+  let contentType = req.headers["content-type"];
+
+  if (req.method === 'POST' && contentType.indexOf('multipart/form-data;') > -1) {
+    var form = formidable.IncomingForm({
+      uploadDir: path.join(__dirname, "/public/images"),
+      keepExtensions: true
+    });
+
+    form.parse(req, function (err, fields, files) {
+      req.fields = fields;
+      req.files = files;
+      next();
+    });
+  } else {
+    next();
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
