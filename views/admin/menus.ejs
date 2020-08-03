@@ -143,7 +143,11 @@
 </div>
 
 <%- include('./inc/footer') -%>
+<script src="/js/hcode-filereader.js"></script>
 <script>
+  new HcodeFileReader('#modal-create [type=file]', '#modal-create img');
+  new HcodeFileReader('#modal-update [type=file]', '#modal-update img');
+
   let formCreate = document.querySelector('#modal-create form');
   formCreate.addEventListener('submit', e => {
     e.preventDefault();
@@ -167,13 +171,14 @@
       for (let name in data) {
         switch (name) {
           case 'photo':
+            formUpdate.querySelector('img').src = '/' + data[name];
             break;
           default:
             let input = formUpdate.querySelector(`[name=${name}]`);
             if (input) input.value = data[name];
         }
       }
-      $('#modal-update').modal('open');
+      $('#modal-update').modal('show');
     });
   });
 </script>
