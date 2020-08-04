@@ -36,7 +36,7 @@ module.exports = {
                             price = ?
                             ${queryPhoto}
                         WHERE id = ?
-                    `; 
+                    `;
             } else {
                 if (!files.photo.name) {
                     reject('Envie a foto do prato');
@@ -55,5 +55,20 @@ module.exports = {
                 }
             });
         });
+    },
+    delete(id) {
+        return new Promise((resolve, reject) => {
+            conn.query(`
+                DELETE FROM tb_menus WHERE id = ?
+            `, [
+                id
+            ], (err, results) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(results);
+                }
+            });
+        });
     }
-}
+};
