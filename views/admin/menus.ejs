@@ -162,13 +162,15 @@
   }).catch(err => {
     console.log(err);
   });
-  
+
   [...document.querySelectorAll('.btn-update')].forEach(btn => {
     btn.addEventListener('click', e => {
       let tr = e.path.find(el => {
         return (el.tagName.toUpperCase() === 'TR');
       });
+
       let data = JSON.parse(tr.dataset.row);
+      
       for (let name in data) {
         switch (name) {
           case 'photo':
