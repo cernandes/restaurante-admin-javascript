@@ -41,7 +41,6 @@ module.exports = {
                     `;
             }
             conn.query(query, params, (err, results) => {
-                console.log(err);
                 if (err) {
                     reject(err);
                 } else {
@@ -62,4 +61,19 @@ module.exports = {
             });
         });
     },
+    delete(id) {
+        return new Promise((resolve, reject) => {
+            conn.query(`
+                DELETE FROM tb_reservations WHERE id = ?
+            `, [
+                id
+            ], (err, results) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
 }
