@@ -33,7 +33,7 @@ module.exports = {
     getUsers() {
         return new Promise((resolve, reject) => {
             conn.query(`
-                SELECT * FROM tb_users ORDER BY title
+                SELECT * FROM tb_users ORDER BY name
             `, (err, results) => {
                 if (err) {
                     reject(err);
@@ -76,7 +76,7 @@ module.exports = {
     delete(id) {
         return new Promise((resolve, reject) => {
             conn.query(`
-                DELETE FROM tb_menus WHERE id = ?
+                DELETE FROM tb_users WHERE id = ?
             `, [
                 id
             ], (err, results) => {
