@@ -25,18 +25,18 @@ module.exports = {
             ];
             if (parseInt(fields.id) > 0) {
                 query = `
-                    UPDATE tb_reservations
-                    SET name = ?,
-                        email = ?,
-                        people = ?,
-                        date = ?,
-                        time = ?
-                    WHERE id = ?
-                    `;
+                UPDATE tb_reservations
+                SET name = ?,
+                email = ?,
+                people = ?,
+                date = ?,
+                time = ?
+                WHERE id = ?
+                `;
                 params.push(fields.id);
             } else {
                 query = `
-                    INSERT INTO tb_reservations (name, email, people, date, time)
+                INSERT INTO tb_reservations (name, email, people, date, time)
                     VALUES(?, ?, ?, ?, ?)               
                     `;
             }
