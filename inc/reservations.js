@@ -33,12 +33,12 @@ module.exports = {
                 time = ?
                 WHERE id = ?
                 `;
-                params.push(fields.id);
             } else {
                 query = `
                 INSERT INTO tb_reservations (name, email, people, date, time)
-                    VALUES(?, ?, ?, ?, ?)               
-                    `;
+                VALUES(?, ?, ?, ?, ?)               
+                `;
+                params.push(fields.id);
             }
             conn.query(query, params, (err, results) => {
                 if (err) {
