@@ -3,6 +3,7 @@ const express = require('express');
 const menus = require('./../inc/menus');
 const reservations = require('./../inc/reservations');
 const contacts = require('./../inc/contacts');
+const emails = require('./../inc/emails');
 const router = express.Router();
 
 
@@ -82,4 +83,12 @@ router.get('/services', function (req, res, next) {
   });
 });
 
+router.post('/subscribe', function (req, res, next) {
+  emails.save(req).then(results => {
+    res.send(results);
+  }).catch(err => {
+    res.send(err);
+  });
+  
+});
 module.exports = router;
