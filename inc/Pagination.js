@@ -10,13 +10,13 @@ class Pagination {
         this.itemsPerPage = itemsPerPage;
         this.currentPage = 1;
     }
-    getPage(page) {
+    getPage(page = 1) {
         this.currentPage = page - 1;
-        this.params.push(
-            this.currentPage * this.itemsPerPage,
-            this.itemsPerPage
-        );
         return new Promise((resolve, reject) => {
+            this.params.push(
+                this.currentPage * this.itemsPerPage,
+                this.itemsPerPage
+            );
             conn.query([this.query, 'SELECT FOUND_ROWS() AS FOUND_ROWS'].join(';'), this.params, (err, results) => {
                 if (err) {
                     reject(err);
@@ -38,6 +38,13 @@ class Pagination {
     }
     getTotalPages() {
         return this.totalPages;
+    }
+    getQueryString(obj) {
+        let params = [];
+        for (let name in obj) {
+            params.push(`${name}=${obj[name]}`);
+        }
+        return params.join('&');
     }
     getNavigation(params) {
         let limitPageNav = 5;
@@ -64,7 +71,7 @@ class Pagination {
                 href: '?' + this.getQueryString(Object.assign({}, params, {
                     page: this.getCurrentPage() - 1
                 }))
-            })
+            });
         }
         for (let x = nrstart; x <= nrend; x++) {
             links.push({
@@ -82,13 +89,6 @@ class Pagination {
             })
         }
         return links
-    }
-    getQueryString(params) {
-        let queryString = [];
-        for (let name in params) {
-            queryString.push(`${name} = ${params[name]}`);
-        }
-        return queryString.join('&');
     }
 }
 module.exports = Pagination;
