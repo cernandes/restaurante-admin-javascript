@@ -3,15 +3,21 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const redis = require('redis');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
 const formidable = require('formidable');
+var http = require('http');
+const socket = require('socket.io');
 
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
 
 const app = express();
+var http = http.Server(app);
+var io = socket(http);
+io.on('connection', function (socket) {
+  console.log('Novo usuário conectado')
+})
 
 app.use(function (req, res, next) {
 
@@ -49,8 +55,6 @@ app.use(session({
 }));
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -72,5 +76,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+http.listen(3000, function () {
+console.log('Servidor em execução')
+})
 
-module.exports = app;
